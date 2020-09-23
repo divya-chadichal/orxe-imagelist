@@ -6,6 +6,9 @@ export default class OrxeOrxeImageList extends LitElement {
 
   imageUrls: any[];
 
+  @property({type: String, reflect: true, attribute: 'size'})
+  size = 'small';
+
   @property({reflect: true})
   currentFullIndex: number;
 
@@ -14,9 +17,6 @@ export default class OrxeOrxeImageList extends LitElement {
 
   @property({reflect: true})
   currentSmallIndex: number;
-
-  leftLabel: string;
-  rightLabel: string;
 
   @property({reflect: true})
   currentFullImage: string;
@@ -40,8 +40,6 @@ export default class OrxeOrxeImageList extends LitElement {
     this.currentFullIndex = 0;
     this.currentRegIndex = 0;
     this.currentSmallIndex = 0;
-    this.leftLabel = 'Previous Image';
-    this.rightLabel = 'Next Image';
     this.currentFullImage = './assets/locales/hotel-image-1.jpg';
     this.currentRegImage = './assets/locales/hotel-image-1.jpg';
     this.currentSmallImage = './assets/locales/hotel-image-1.jpg';
@@ -54,53 +52,17 @@ export default class OrxeOrxeImageList extends LitElement {
    */
   render() {
     return html`
-      <h2>Hotel Image Slider</h2>
-      <div class="container">
-        <div class="fullContainer">
-          <h2>Full Size Image</h2>
-          <div class="fullSizeDiv">
-            <button class="prevFullContainer" @click="${() => this.goPrevious('full')}">
-              ${this.prevButtonIcon}
-            </button>
-            <img class="fullImage" id="fullCurrentImage" aria-hidden="true" src="${this.currentFullImage}" alt="Image not found" />
-            <div class="fullPagination">
-                ${this.imageUrls.length ? this.currentFullIndex + 1 : 0}/${this.imageUrls.length}
-            </div>
-            <button class="nextFullContainer" @click="${() => this.goNext('full')}">
-              ${this.nextButtonIcon}
-            </button>
-          </div>
+      <div id="imageDiv" class="${this.size == 'full' ? 'fullSizeDiv' : this.size == 'regular' ? 'regSizeDiv' : this.size == 'small' ? 'smallSizeDiv' : 'smallSizeDiv'}">
+        <button class="${this.size == 'full' ? 'prevFullContainer' : this.size == 'regular' ? 'prevRegContainer' : this.size == 'small' ? 'prevSmallContainer' : 'prevSmallContainer'}" @click="${() => this.goPrevious(this.size)}">
+          ${this.prevButtonIcon}
+        </button>
+        <img class="${this.size == 'full' ? 'fullImage' : this.size == 'regular' ? 'regImage' : this.size == 'small' ? 'smallImage' : 'smallImage'}" src="${this.size == 'full' ? this.currentFullImage : this.size == 'regular' ? this.currentRegImage : this.size == 'small' ? this.currentSmallImage : this.currentSmallImage}" alt="Image not found" />
+        <div class="${this.size == 'full' ? 'fullPagination' : this.size == 'regular' ? 'regPagination' : this.size == 'small' ? 'smallPagination' : 'smallPagination'}">
+            ${this.imageUrls.length ? (this.size == 'full' ? this.currentFullIndex : this.size == 'regular' ? this.currentRegIndex : this.size == 'small' ? this.currentSmallIndex : this.currentSmallIndex) + 1 : 0}/${this.imageUrls.length}
         </div>
-        <div class="regContainer">
-          <h2>Regular Size Image</h2>
-          <div class="regSizeDiv">
-            <button class="prevRegContainer" @click="${() => this.goPrevious('regular')}">
-              ${this.prevButtonIcon}
-            </button>
-            <img class="regImage" aria-hidden="true" src="${this.currentRegImage}" alt="Image not found" />
-            <div class="regPagination">
-              ${this.imageUrls.length ? this.currentRegIndex + 1 : 0}/${this.imageUrls.length}
-            </div>
-            <button class="nextRegContainer" @click="${() => this.goNext('regular')}">
-              ${this.nextButtonIcon}
-            </button>
-          </div>
-        </div>
-        <div class="smallContainer">
-          <h2>Small Size Image</h2>
-          <div class="smallSizeDiv">
-            <button class="prevSmallContainer" @click="${() => this.goPrevious('small')}">
-              ${this.prevButtonIcon}
-            </button>
-            <img class="smallImage" aria-hidden="true" src="${this.currentSmallImage}" alt="Image not found" />
-            <div class="smallPagination">
-              ${this.imageUrls.length ? this.currentSmallIndex + 1 : 0}/${this.imageUrls.length}
-            </div>
-            <button class="nextSmallContainer" @click="${() => this.goNext('small')}">
-              ${this.nextButtonIcon}
-            </button>
-          </div>
-        </div>
+        <button class="${this.size == 'full' ? 'nextFullContainer' : this.size == 'regular' ? 'nextRegContainer' : this.size == 'small' ? 'nextSmallContainer' : 'nextSmallContainer'}" @click="${() => this.goNext(this.size)}">
+          ${this.nextButtonIcon}
+        </button>
       </div>
     `;
   }
