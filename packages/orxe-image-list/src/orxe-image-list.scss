@@ -39,10 +39,12 @@ h2 {
 
 .regContainer {
     width: 35%;
+    height: 170px;
 }
 
 .smallContainer {
     width: 23%;
+    height: 120px;
 }
 
 img.fullImage, .fullSizeDiv{
@@ -87,22 +89,22 @@ img.smallImage, .smallSizeDiv{
 
 .prevRegContainer {
     left: 0;
-    top: 20%;
+    top: 70%;
 }
 
 .nextRegContainer {
     right: 0%;
-    top: 20%;
+    top: 70%;
 }
 
 .prevSmallContainer {
     left: 0;
-    top: 17%;
+    top: 80%;
 }
 
 .nextSmallContainer {
     right: 0%;
-    top: 17%;
+    top: 80%;
 }
 
 .fullPagination, .regPagination, .smallPagination {
@@ -122,9 +124,9 @@ img.smallImage, .smallSizeDiv{
 }
 
 .regPagination {
-    top: 30%;
+    top: 115%;
 }
 
 .smallPagination {
-    top: 22%;
+    top: 120%;
 }
