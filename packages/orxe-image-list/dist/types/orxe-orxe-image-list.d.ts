@@ -1,6 +1,6 @@
 import { LitElement } from 'lit-element';
 export default class OrxeOrxeImageList extends LitElement {
-    imageUrls: string[];
+    imageurls: never[];
     size: string;
     currentFullIndex: number;
     currentRegIndex: number;
@@ -11,6 +11,7 @@ export default class OrxeOrxeImageList extends LitElement {
     prevButtonIcon: string;
     nextButtonIcon: string;
     constructor();
+    firstUpdated(): void;
     render(): import("lit-element").TemplateResult;
     private __goPrevious;
     private __goNext;
