@@ -42,6 +42,11 @@
 	animation: fadein 1s ease-in;
 }
 
+.imageContainer {
+    width: var(--image-container-width);
+    position: relative;
+}
+
 img.fullImage, .fullSizeDiv{
     width: var(--image-container-width);
     height: 240px;
@@ -74,32 +79,32 @@ img.smallImage, .smallSizeDiv{
 
 .prevFullContainer {
     left: 0;
-    top: 60%;
+    top: 50%;
 }
 
 .nextFullContainer {
     right: 0%;
-    top: 60%;
+    top: 45%;
 }
 
 .prevRegContainer {
     left: 0;
-    top: 60%;
+    top: 45%;
 }
 
 .nextRegContainer {
     right: 0%;
-    top: 60%;
+    top: 45%;
 }
 
 .prevSmallContainer {
     left: 0;
-    top: 60%;
+    top: 45%;
 }
 
 .nextSmallContainer {
     right: 0%;
-    top: 60%;
+    top: 45%;
 }
 
 .fullPagination, .regPagination, .smallPagination {
@@ -115,13 +120,13 @@ img.smallImage, .smallSizeDiv{
 }
 
 .fullPagination {
-    top: 100%;
+    top: 85%;
 }
 
 .regPagination {
-    top: 98%;
+    top: 80%;
 }
 
 .smallPagination {
-    top: 98%;
+    top: 75%;
 }
