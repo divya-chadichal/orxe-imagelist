@@ -1,4 +1,4 @@
-import { html, customElement, LitElement, property } from 'lit-element';
+import { html, customElement, property, LitElement } from 'lit-element';
 import styles from './orxe-image-list-css';
 
 @customElement('orxe-image-list')
@@ -12,29 +12,13 @@ export default class OrxeOrxeImageList extends LitElement {
   @property({type: String, reflect: true, attribute: 'size'})
   size = 'small';
 
-  // Current index of full image
+  // Current index of image
   @property({reflect: true})
-  currentFullIndex: number;
+  currentIndex: number;
 
-  // Current index of regular image
+  // Current image
   @property({reflect: true})
-  currentRegIndex: number;
-
-  // Current index of small image
-  @property({reflect: true})
-  currentSmallIndex: number;
-
-  // Current full image
-  @property({reflect: true})
-  currentFullImage: string;
-
-  // Current regular image
-  @property({reflect: true})
-  currentRegImage: string;
-
-  // Current small image
-  @property({reflect: true})
-  currentSmallImage: string;
+  currentImage: string;
 
   // Previous button icon
   prevButtonIcon: string;
@@ -44,26 +28,15 @@ export default class OrxeOrxeImageList extends LitElement {
 
   constructor() {
     super();
-    this.currentFullIndex = 0;
-    this.currentRegIndex = 0;
-    this.currentSmallIndex = 0;
-    this.currentFullImage = this.imageurls[0];
-    this.currentRegImage = this.imageurls[0];
-    this.currentSmallImage = this.imageurls[0];
+    this.currentIndex = 0;
+    this.currentImage = this.imageurls[0];
     this.prevButtonIcon = '<';
-    this.nextButtonIcon = '>';
-    
+    this.nextButtonIcon = '>'; 
   }
 
-  // Set current full/regular/small image
+  // Set current image to first image of imageUrls
   firstUpdated() {
-    if (this.size == 'full') {
-      this.currentFullImage = this.imageurls[0];
-    } else if (this.size == 'regular') {
-      this.currentRegImage = this.imageurls[0];
-    } else if (this.size == 'small') {
-      this.currentSmallImage = this.imageurls[0];
-    }
+    this.currentImage = this.imageurls[0];
   }
 
   /**
@@ -71,16 +44,16 @@ export default class OrxeOrxeImageList extends LitElement {
    */
   render() {
     return html`
-    <div class="imageContainer">
-      <div class="${this.size == 'full' ? 'fullSizeDiv' : this.size == 'regular' ? 'regSizeDiv' : this.size == 'small' ? 'smallSizeDiv' : 'smallSizeDiv'}">
-        <button class="${this.size == 'full' ? 'prevFullContainer' : this.size == 'regular' ? 'prevRegContainer' : this.size == 'small' ? 'prevSmallContainer' : 'prevSmallContainer'}" @click="${() => this.__goPrevious(this.size)}">
+    <div class="orxe-grid" style="--col-grid: span 1; position: relative;">
+      <div id="imageDiv" class="${this.size == 'full' ? 'fullSizeDiv' : this.size == 'regular' ? 'regSizeDiv' : this.size == 'small' ? 'smallSizeDiv' : 'smallSizeDiv'}">
+        <button class="${this.size == 'full' ? 'prevFullContainer' : this.size == 'regular' ? 'prevRegContainer' : this.size == 'small' ? 'prevSmallContainer' : 'prevSmallContainer'}" @click="${() => this.__goPrevious()}">
           ${this.prevButtonIcon}
         </button>
-        <img class="${this.size == 'full' ? 'fullImage' : this.size == 'regular' ? 'regImage' : this.size == 'small' ? 'smallImage' : 'smallImage'}" src="${this.size == 'full' ? this.currentFullImage : this.size == 'regular' ? this.currentRegImage : this.size == 'small' ? this.currentSmallImage : this.currentSmallImage}" alt="Image not found" />
+        <img id="img" class="${this.size == 'full' ? 'fullImage' : this.size == 'regular' ? 'regImage' : this.size == 'small' ? 'smallImage' : 'smallImage'}" src="${this.currentImage}" alt="Image not found" />
         <div class="${this.size == 'full' ? 'fullPagination' : this.size == 'regular' ? 'regPagination' : this.size == 'small' ? 'smallPagination' : 'smallPagination'}">
-            ${this.imageurls.length ? (this.size == 'full' ? this.currentFullIndex : this.size == 'regular' ? this.currentRegIndex : this.size == 'small' ? this.currentSmallIndex : this.currentSmallIndex) + 1 : 0}/${this.imageurls.length}
+            ${this.imageurls.length ? this.currentIndex  + 1 : 0}/${this.imageurls.length}
         </div>
-        <button class="${this.size == 'full' ? 'nextFullContainer' : this.size == 'regular' ? 'nextRegContainer' : this.size == 'small' ? 'nextSmallContainer' : 'nextSmallContainer'}" @click="${() => this.__goNext(this.size)}">
+        <button class="${this.size == 'full' ? 'nextFullContainer' : this.size == 'regular' ? 'nextRegContainer' : this.size == 'small' ? 'nextSmallContainer' : 'nextSmallContainer'}" @click="${() => this.__goNext()}">
           ${this.nextButtonIcon}
         </button>
       </div>
@@ -89,42 +62,18 @@ export default class OrxeOrxeImageList extends LitElement {
   }
 
   // Previous button click action
-  private __goPrevious(action): void {
-    if (action === 'full') {
-      if (this.currentFullIndex > 0) {
-        this.currentFullIndex--;
-        this.currentFullImage = this.imageurls[this.currentFullIndex]; //Change Current Full Image
-      }
-    } else if (action === 'regular') {
-      if (this.currentRegIndex > 0) {
-        this.currentRegIndex--;
-        this.currentRegImage = this.imageurls[this.currentRegIndex]; // Change Current Regular Image
-      }
-    } else if (action === 'small') {
-      if (this.currentSmallIndex > 0) {
-        this.currentSmallIndex--;
-        this.currentSmallImage = this.imageurls[this.currentSmallIndex]; // Change Current Small Image
-      }
+  private __goPrevious(): void {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.currentImage = this.imageurls[this.currentIndex]; // Change Current Image
     }
   }
 
   // Next button click action
-  private __goNext(action): void {
-    if (action === 'full') {
-      if (this.currentFullIndex < this.imageurls.length-1) {
-        this.currentFullIndex++;
-        this.currentFullImage = this.imageurls[this.currentFullIndex]; // Change Current Full Image
-      }
-    } else if (action === 'regular') {
-      if (this.currentRegIndex < this.imageurls.length-1) {
-        this.currentRegIndex++;
-        this.currentRegImage = this.imageurls[this.currentRegIndex]; // Change Current Regular Image
-      }
-    } else if (action === 'small') {
-      if (this.currentSmallIndex < this.imageurls.length-1) {
-        this.currentSmallIndex++;
-        this.currentSmallImage = this.imageurls[this.currentSmallIndex]; // Change Current Small Image
-      }
+  private __goNext(): void {
+    if (this.currentIndex < this.imageurls.length-1) {
+      this.currentIndex++;
+      this.currentImage = this.imageurls[this.currentIndex]; // Change Current Image
     }
   }
 
